@@ -1,7 +1,4 @@
 const https = require('https');
-
-const BASE_URL = 'https://swapi.dev/api/planets/1';
-
 class Service {
   async makeRequest(url) {
     return new Promise((resolve, reject) => {
@@ -12,10 +9,15 @@ class Service {
     })
   }
 
+  async getPlanets(url) {
+    const result = await this.makeRequest(url);
+
+    return {
+      name: result.name,
+      surfaceWater: result.surface_water,
+      appearedIn: result.films.length,
+    }
+  }
 };
 
-(async () => {
-  const response = await new Service().makeRequest(BASE_URL);
-
-  console.log(response);
-})();
+module.exports = Service;
